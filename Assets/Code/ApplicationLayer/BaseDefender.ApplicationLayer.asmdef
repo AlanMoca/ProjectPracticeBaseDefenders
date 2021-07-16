@@ -2,7 +2,8 @@
     "name": "BaseDefender.ApplicationLayer",
     "rootNamespace": "",
     "references": [
-        "GUID:57efef21b52d2d746be7be9680ab4ecb"
+        "GUID:57efef21b52d2d746be7be9680ab4ecb",
+        "GUID:77d8271b3213e734c99f5e500041075d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
