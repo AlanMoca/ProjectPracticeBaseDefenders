@@ -6,14 +6,9 @@ using System;
 
 namespace ApplicationLayer.Services.Server
 {
-    public class PlayFabLogin : IAuthenticateService
+    public class PlayFabLogin : IServiceAuthenticator
     {
-        private string userID;
-
-        public PlayFabLogin()
-        {
-
-        }
+        public string UserID { get; private set; }
 
         public Task Authenticate()
         {
@@ -35,7 +30,7 @@ namespace ApplicationLayer.Services.Server
 
         private void OnSuccess( LoginResult result, TaskCompletionSource<bool> taskCompletionSource )
         {
-            userID = result.PlayFabId;
+            UserID = result.PlayFabId;
             taskCompletionSource.SetResult( true );
             UnityEngine.Debug.Log( "Todo fine" );
         }

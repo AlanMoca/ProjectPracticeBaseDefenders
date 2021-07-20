@@ -5,16 +5,16 @@ namespace Domain.UseCase
 {
     public class RequestLoginUseCase : ILoginRequester
     {
-        private readonly IAuthenticateService authenticateService;
+        private readonly IServiceAuthenticator serviceAuthenticator;
 
-        public RequestLoginUseCase( IAuthenticateService _authenticateService )
+        public RequestLoginUseCase( IServiceAuthenticator _authenticateService )
         {
-            authenticateService = _authenticateService;
+            serviceAuthenticator = _authenticateService;
         }
 
         public async Task Login()
         {
-            await authenticateService.Authenticate();
+            await serviceAuthenticator.Authenticate();
         }
     }
 }
