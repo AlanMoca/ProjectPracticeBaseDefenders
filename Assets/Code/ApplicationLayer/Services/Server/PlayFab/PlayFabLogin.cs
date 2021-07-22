@@ -4,14 +4,11 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 
-namespace ApplicationLayer.Services.Server
+namespace ApplicationLayer.Services.Server.PlayFab
 {
     public abstract class PlayFabLogin : IServiceAuthenticator
     {
-        public string UserID
-        {
-            get; private set;
-        }
+        public string UserID { get; private set; }
 
         public Task Authenticate()                                                              //Al devolver un task lo que hacemos es que nuestro consumidor no tiene que preocuparse por callbacks.
         {

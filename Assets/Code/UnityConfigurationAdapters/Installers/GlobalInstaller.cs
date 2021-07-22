@@ -1,5 +1,8 @@
-using ApplicationLayer.Services.Server;
-using Domain.UseCase;
+using ApplicationLayer.DataAccess;
+using ApplicationLayer.Services.Serializer;
+using ApplicationLayer.Services.Server.Gateways;
+using ApplicationLayer.Services.Server.PlayFab;
+using Domain.UseCases;
 using UnityEngine;
 
 namespace Code.UnityConfigurationAdapters.Installers
@@ -8,9 +11,18 @@ namespace Code.UnityConfigurationAdapters.Installers
     {
         private void Awake()
         {
-            PlayFabLogin playFabLogin = GetPlayFabLogin();
-            RequestLoginUseCase loginUseCase = new RequestLoginUseCase( playFabLogin );
-            InitializeGameUseCase initializeGameUseCase = new InitializeGameUseCase( loginUseCase );
+            var playFabLogin = GetPlayFabLogin();
+            var loginUseCase = new RequestLoginUseCase( playFabLogin );
+
+            var serializerService = new UnityJsonSerializer();
+            var getDataService = new PlayFabGetUserDataService();
+            var userDataGateway = new UserDataGateway( serializerService, getDataService, null );
+
+            var userDataAccess = new UserRepository( userDataGateway );
+            var userDataLoader = new LoadUserDataUseCase( userDataAccess );
+
+            var initializeGameUseCase = new InitializeGameUseCase( loginUseCase, userDataLoader );
+
             initializeGameUseCase.InitGame();
         }
 

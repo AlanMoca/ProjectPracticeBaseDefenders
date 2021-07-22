@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Domain.Services.Server;
 
-namespace Domain.UseCase
+namespace Domain.UseCases
 {
     public class RequestLoginUseCase : ILoginRequester
     {

@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Domain.UseCase
+namespace Domain.UseCases
 {
     public interface ILoginRequester
     {

@@ -1,10 +1,8 @@
-using Domain.Services.Server;
 using System.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
-using System;
 
-namespace ApplicationLayer.Services.Server
+namespace ApplicationLayer.Services.Server.PlayFab
 {
     public class PlayFabLoginEditor : PlayFabLogin
     {

@@ -1,4 +1,4 @@
-namespace Domain.UseCase
+namespace Domain.UseCases
 {
     public interface IGameInitializer
     {

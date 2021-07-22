@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
 
-namespace ApplicationLayer.Services.Server
+namespace ApplicationLayer.Services.Server.PlayFab
 {
     public class PlayFabLoginIOS : PlayFabLogin
     {
@@ -16,22 +16,8 @@ namespace ApplicationLayer.Services.Server
 
             PlayFabClientAPI.LoginWithIOSDeviceID( request,
                                                    result => OnSuccess( result, taskCompletionSource ),
-                       
-                                            
-                                                   
-                                                   
-                                                   
                                                    error => OnError( error, taskCompletionSource )
-                                                   
-                                                  
-                                                   
-                                               
-                                                 
-                                                   
-                                                   
-                                                            );
+                                                   );
         }
     }
 }
-
-
