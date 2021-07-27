@@ -9,6 +9,7 @@ namespace ApplicationLayer.DataAccess
     public class UserRepository : IUserDataAccess
     {
         private readonly IGateway userDataGateway;
+        private User localUser;
 
         public UserRepository( IGateway _userDataGateway )
         {
@@ -17,8 +18,14 @@ namespace ApplicationLayer.DataAccess
 
         public async Task<User> GetLocalUser()
         {
+            if( localUser != null )
+            {
+                return localUser;
+            }
+
             var isInitializedDto = await userDataGateway.Contains<IsInitializedDTO>();          //Se usa para verificar si el usuario está inicializado o no.
-            return new User( isInitializedDto );
+            localUser = new User( isInitializedDto );
+            return localUser;
         }
     }
 }

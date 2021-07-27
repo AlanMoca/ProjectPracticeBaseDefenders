@@ -7,7 +7,7 @@ using PlayFab;
 
 namespace ApplicationLayer.Services.Server.PlayFab
 {
-    public class PlayFabGetUserDataService : IGetDataService                                    //Implementación de playfab
+    public class PlayFabGetUserDataService : IGetDataService                                    //Implementación de playfab (Se desacopla del gateway pero se pasa por constructor.)
     {
         public Task<Optional<DataResult>> Get( List<string> keys )
         {
