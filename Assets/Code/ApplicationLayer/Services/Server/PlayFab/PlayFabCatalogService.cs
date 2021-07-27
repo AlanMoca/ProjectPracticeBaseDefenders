@@ -1,6 +1,7 @@
 using ApplicationLayer.Services.Server.Gateways.Catalog;
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SystemUtilities;
@@ -26,14 +27,14 @@ namespace ApplicationLayer.Services.Server.PlayFab
             };
 
             PlayFabClientAPI.GetCatalogItems( request,
-                                              result => OnSuccess( result, t ),
-                                              error => OnError( error, t )
+                                              result => OnSuccess( result, taskCompletionSource ),
+                                              error => OnError( error, taskCompletionSource )
                                               );
         }
 
         protected void OnSuccess( GetCatalogItemsResult result, TaskCompletionSource<Optional<List<CatalogItem>>> taskCompletionSource )
         {
-            taskCompletionSource.SetResult( result.Catalog );                                   //Así porque queremos que nos regrese el catalogo.
+            taskCompletionSource.SetResult( new Optional<List<CatalogItem>>( result.Catalog ) );                                   //Así porque queremos que nos regrese el catalogo.
             UnityEngine.Debug.Log( "Ok Units Catalog" );
         }
 
