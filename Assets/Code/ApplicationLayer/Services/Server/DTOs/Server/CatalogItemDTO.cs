@@ -19,4 +19,3 @@ namespace ApplicationLayer.Services.Server.DTOs.Server
         }
     }
 }
-

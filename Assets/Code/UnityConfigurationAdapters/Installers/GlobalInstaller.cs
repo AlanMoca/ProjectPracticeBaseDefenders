@@ -1,8 +1,12 @@
 using ApplicationLayer.DataAccess;
 using ApplicationLayer.Services.Serializer;
 using ApplicationLayer.Services.Server.Gateways;
+using ApplicationLayer.Services.Server.Gateways.Catalog;
 using ApplicationLayer.Services.Server.PlayFab;
-using Domain.UseCases;
+using Domain.UseCases.Meta.InitializeGame;
+using Domain.UseCases.Meta.LoadServerData;
+using Domain.UseCases.Meta.LoadUserData;
+using Domain.UseCases.Meta.Login;
 using UnityEngine;
 
 namespace Code.UnityConfigurationAdapters.Installers
@@ -21,7 +25,13 @@ namespace Code.UnityConfigurationAdapters.Installers
             var userDataAccess = new UserRepository( userDataGateway );
             var userDataLoader = new LoadUserDataUseCase( userDataAccess );
 
-            var initializeGameUseCase = new InitializeGameUseCase( loginUseCase, userDataLoader );
+            var playFabCatalogService = new PlayFabCatalogService();
+            
+            var catalogGatewayPlayFab = new CatalogGatewayPlayFab( playFabCatalogService, serializerService );
+            var unitsRepository = new UnitsRepository( catalogGatewayPlayFab );
+            var serverDataLoader = new LoadServerDataUseCase( unitsRepository );
+
+            var initializeGameUseCase = new InitializeGameUseCase( loginUseCase, userDataLoader, serverDataLoader );
 
             initializeGameUseCase.InitGame();
         }

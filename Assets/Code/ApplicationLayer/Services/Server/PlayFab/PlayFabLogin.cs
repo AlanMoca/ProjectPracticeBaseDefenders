@@ -4,6 +4,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 
+//NOTA: Daniel maneja esta parte de la capa de Application como la capa más externa.
 namespace ApplicationLayer.Services.Server.PlayFab
 {
     public abstract class PlayFabLogin : IServiceAuthenticator
