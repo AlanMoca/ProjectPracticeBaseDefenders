@@ -1,9 +1,9 @@
-using ApplicationLayer.Services.Server.DTOs.User;
-using Domain.Services.Serializer;
+using Code.ApplicationLayer.Services.Server.DTOs.User;
+using Code.Domain.Services.Serializer;
 using System;
 using System.Collections.Generic;
 
-namespace ApplicationLayer.Services.Server.Gateways
+namespace Code.ApplicationLayer.Services.Server.Gateways
 {
     public class UserDataGateway : Gateway                                                      //Lo que hace es el mappeador de qué tipo de DTO equivale a cada nombre, ya que en playfab tenemos que preguntar por la key.
     {

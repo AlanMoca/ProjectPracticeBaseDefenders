@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ApplicationLayer.Services.Server.DTOs.User
+namespace Code.ApplicationLayer.Services.Server.DTOs.User
 {
     [System.Serializable]
     public class IsInitializedDTO : IDTO

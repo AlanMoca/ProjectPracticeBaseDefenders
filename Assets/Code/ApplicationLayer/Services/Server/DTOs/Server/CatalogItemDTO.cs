@@ -1,4 +1,4 @@
-namespace ApplicationLayer.Services.Server.DTOs.Server
+namespace Code.ApplicationLayer.Services.Server.DTOs.Server
 {
     public class CatalogItemDTO : IDTO                                                          //Este es nuestro y aquí es donde tendremos que añadir los datos parseados que nos triaga playfab
     {

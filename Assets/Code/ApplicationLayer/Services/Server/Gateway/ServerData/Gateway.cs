@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ApplicationLayer.Services.Server.DTOs;
-using Domain.Services.Serializer;
-using Domain.Services.Server;
+using Code.ApplicationLayer.Services.Server.DTOs;
+using Code.Domain.Services.Serializer;
+using Code.Domain.Services.Server;
 using UnityEngine.Assertions;
 
-namespace ApplicationLayer.Services.Server.Gateways
+namespace Code.ApplicationLayer.Services.Server.Gateways
 {
     public abstract class Gateway : IGateway
     {

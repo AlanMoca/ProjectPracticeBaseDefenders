@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ApplicationLayer.Services.Server.Gateways
+namespace Code.ApplicationLayer.Services.Server.Gateways
 {
     public interface ISetDataService
     {

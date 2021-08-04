@@ -1,7 +1,7 @@
-using Domain.Entities;
+using Code.Domain.Entities;
 using System.Threading.Tasks;
 
-namespace Domain.DataAccess
+namespace Code.Domain.DataAccess
 {
     public interface IUserDataAccess
     {

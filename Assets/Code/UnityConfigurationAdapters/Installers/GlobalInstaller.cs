@@ -1,12 +1,13 @@
-using ApplicationLayer.DataAccess;
-using ApplicationLayer.Services.Serializer;
-using ApplicationLayer.Services.Server.Gateways;
-using ApplicationLayer.Services.Server.Gateways.Catalog;
-using ApplicationLayer.Services.Server.PlayFab;
-using Domain.UseCases.Meta.InitializeGame;
-using Domain.UseCases.Meta.LoadServerData;
-using Domain.UseCases.Meta.LoadUserData;
-using Domain.UseCases.Meta.Login;
+using Code.ApplicationLayer.DataAccess;
+using Code.ApplicationLayer.Services.Serializer;
+using Code.ApplicationLayer.Services.Server.Gateway.Inventory;
+using Code.ApplicationLayer.Services.Server.Gateways;
+using Code.ApplicationLayer.Services.Server.Gateways.Catalog;
+using Code.ApplicationLayer.Services.Server.PlayFab;
+using Code.Domain.UseCases.Meta.InitializeGame;
+using Code.Domain.UseCases.Meta.LoadServerData;
+using Code.Domain.UseCases.Meta.LoadUserData;
+using Code.Domain.UseCases.Meta.Login;
 using UnityEngine;
 
 namespace Code.UnityConfigurationAdapters.Installers
@@ -28,8 +29,12 @@ namespace Code.UnityConfigurationAdapters.Installers
             var playFabCatalogService = new PlayFabCatalogService();
             
             var catalogGatewayPlayFab = new CatalogGatewayPlayFab( playFabCatalogService, serializerService );
-            var unitsRepository = new UnitsRepository( catalogGatewayPlayFab );
-            var serverDataLoader = new LoadServerDataUseCase( unitsRepository );
+
+            var grantItemsService = new PlayFabUserInventoryServices();
+            var inventoryGateway = new InventoryGateway( grantItemsService );
+            var unitsRepository = new UnitsRepository( catalogGatewayPlayFab, inventoryGateway );
+
+            var serverDataLoader = new LoadServerDataUseCase( unitsRepository, playFabLogin );
 
             var initializeGameUseCase = new InitializeGameUseCase( loginUseCase, userDataLoader, serverDataLoader );
 

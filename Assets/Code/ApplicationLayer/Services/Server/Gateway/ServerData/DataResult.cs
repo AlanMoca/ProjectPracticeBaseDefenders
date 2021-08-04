@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ApplicationLayer.Services.Server.Gateways
+namespace Code.ApplicationLayer.Services.Server.Gateways
 {
     public class DataResult
     {

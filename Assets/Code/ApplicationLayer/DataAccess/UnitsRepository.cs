@@ -1,56 +1,61 @@
-using ApplicationLayer.Services.Server.DTOs.Server;
-using ApplicationLayer.Services.Server.Gateways.Catalog;
-using Domain.DataAccess;
-using Domain.Entities;
+using Code.Domain.DataAccess;
+using Code.ApplicationLayer.Services.Server.DTOs.Server;
+using Code.ApplicationLayer.Services.Server.Gateways.Catalog;
+using Code.Domain.Entities;
+using PlayFab.ServerModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Code.ApplicationLayer.Services.Server.Gateway.Inventory;
+using ApplicationLayer.DataAccess;
 
-namespace ApplicationLayer.DataAccess
+namespace Code.ApplicationLayer.DataAccess
 {
     public class UnitsRepository : IUnitsDataAccess                                             //Clase que se encarga de mappear los datos DTO a entidades
     {
         private readonly ICatalogGateway _catalogGateway;
+        private readonly IInventoryGateway _inventoryGateway;
         private List<Unit> _units;
 
-        public UnitsRepository( ICatalogGateway catalogGateway )
+        public UnitsRepository( ICatalogGateway catalogGateway, IInventoryGateway inventoryGateway )
         {
             _catalogGateway = catalogGateway;
+            _inventoryGateway = inventoryGateway;
         }
 
         public async Task<IReadOnlyList<Unit>> GetAllUnits()
         {
             var unitsDTOs = await _catalogGateway.GetItems<UnitCustomDataDTO>( "Units" );       //Este es el item que le estás pidiendo al gateway.
-            _units = new List<Unit>( unitsDTOs.Select( unitDTO =>
-            {
-                var unitCustomData = unitDTO.GetCustomData<UnitCustomDataDTO>();
-                return new Unit( unitDTO.ID, unitDTO.DisplayName, unitCustomData.Attack, unitCustomData.Health );
-            } ) );
+
+            var unitMapper = new UnitMapper();                                                  //El mappeado lo extrajimo a otra clase para quitarle esta responsabilidad al repository. Aunque el patrón Repository
+            _units = new List<Unit>( unitsDTOs.Select( unitMapper.ParseUnitsDTO ) );            //contempla hacer estos mapeos, no quiere decir que los tenga que hacer él necesariamente, puede usar un colaborador como aquí.
+
             return _units;
         }
 
-        ////////////////////////Aquí abajo estoy refactorizando
-
-        //Los parseos posiblemente los extraigamos en otra clase que sea como un mappeador que sólo se encargue de eso, de esta forma le extraemos esta responsabilidad que no le corresponde tanto al repository.
-        //Aunque el patrón Repository contempla hacer estos mapeos, no quiere decir que los tenga que hacer él necesariamente, puede usar un colaborador.
-
-        private Unit ParseUnits( CatalogItemDTO unitDTO )
+        public async Task AddUnitsToUser( string userId, List<UnitToAdd> units )                //Añade estas unidades al usuario
         {
-            return ParseUnit( unitDTO );
+            var items = 
+                new List<ItemGrant>( units.
+                                        Select( unit => new ItemGrant
+                                                        {
+                                                            ItemId = unit.Id,
+                                                            Data = ParseFieldsToDictionary( unit ),
+                                                            PlayFabId = userId
+                                                        }
+                                        )
+                                    );
+
+            await _inventoryGateway.GrantUnitsToUser( userId, items );
         }
 
-        private Unit ParseUnit( CatalogItemDTO unitDTO )
+        private Dictionary<string, string> ParseFieldsToDictionary( UnitToAdd unit )            //Esto se hizo por reflexión porque aunque no es optima, permite hacer un código genérico.
         {
-            var unitCustomData = unitDTO.GetCustomData<UnitCustomDataDTO>();
-            var unit = new Unit( unitDTO.ID,
-                                 unitDTO.DisplayName,
-                                 unitCustomData.Attack,
-                                 unitCustomData.Health );
-            return unit;
+            var type = unit.UnitState.GetType();
+            var fieldInfos = type.GetFields( System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
+            return fieldInfos.ToDictionary( field => field.Name,
+                                            field => field.GetValue( unit.UnitState ).ToString() 
+                                            );
         }
-
     }
 }
-//_units = new List<Unit>( unitsDTOs.Select( unitDTO => new Unit( unitDTO.ID, unitDTO.DisplayName, unitDTO.GetCustomData<UnitCustomDataDTO> ) ) );
-//NOTA: Una entidad no puede conocer un DTO, por lo que no le podemos pasar el DTO como tal entonces pasamos los parametros.
-//Entonces queda:

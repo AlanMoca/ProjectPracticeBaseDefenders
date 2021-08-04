@@ -1,11 +1,11 @@
-using ApplicationLayer.Services.Server.DTOs.Server;
+using Code.ApplicationLayer.Services.Server.DTOs.Server;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using Domain.Services.Serializer;
+using Code.Domain.Services.Serializer;
 using PlayFab.ClientModels;
 
-namespace ApplicationLayer.Services.Server.Gateways.Catalog
+namespace Code.ApplicationLayer.Services.Server.Gateways.Catalog
 {
     public class CatalogGatewayPlayFab : ICatalogGateway                                        //Esta clase nos dará nuestros catalogos ya parseados. Sólo que no nos conectaremos directamente con la api de playfab
     {

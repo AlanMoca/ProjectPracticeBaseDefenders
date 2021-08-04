@@ -1,7 +1,7 @@
-using ApplicationLayer.Services.Server.DTOs;
+using Code.ApplicationLayer.Services.Server.DTOs;
 using System.Threading.Tasks;
 
-namespace ApplicationLayer.Services.Server.Gateways
+namespace Code.ApplicationLayer.Services.Server.Gateways
 {                                                                                               //Es el patrón para acceder a los datos.
     public interface IGateway                                                                   //Es el que se va a conectar a la API deplayfab para obtener los datos de usuario y los datos de configuración del servidor
     {

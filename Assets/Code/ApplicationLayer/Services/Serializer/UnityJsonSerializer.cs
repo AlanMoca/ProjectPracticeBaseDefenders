@@ -1,7 +1,7 @@
-using Domain.Services.Serializer;
+using Code.Domain.Services.Serializer;
 using UnityEngine;
 
-namespace ApplicationLayer.Services.Serializer
+namespace Code.ApplicationLayer.Services.Serializer
 {
     public class UnityJsonSerializer : ISerializerService
     {

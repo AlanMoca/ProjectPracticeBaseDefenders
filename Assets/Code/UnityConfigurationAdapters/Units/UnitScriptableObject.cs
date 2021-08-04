@@ -1,72 +1,66 @@
-using ApplicationLayer.Services.Server.DTOs.Server;
+using Code.ApplicationLayer.Services.Server.DTOs.Server;
 using NaughtyAttributes;
-using PlayFab;
-using PlayFab.AdminModels;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace UnityConfigurationAdapters.Units
+namespace Code.UnityConfigurationAdapters.Units
 {
     [CreateAssetMenu(menuName ="Base Defender/Units/New Unit", fileName ="UnitConfiguration", order =0)]
     public class UnitScriptableObject : ScriptableObject
     {
         [SerializeField] private string id;
-        [SerializeField] private string name;
-        [SerializeField] private int attack;
-        [SerializeField] private int health;
+        [SerializeField] private string displayName;
+        [SerializeField] private UnitCustomDataDTO unitCustomDataDTO;
 
+#if UNITY_EDITOR && PLAYFABADMIN_API
         [Button]
         public void LoadFromServer()
         {
-            var request = new GetCatalogItemsRequest
+            var request = new PlayFab.AdminModels.GetCatalogItemsRequest
             {
                 CatalogVersion = "Units",
             };
-            PlayFabAdminAPI.GetCatalogItems( request,
-                                             result =>
-                                             {
-                                                 var catalogItem = result.Catalog.First( item => item.ItemId.Equals( id ) );                    //Buscamos el item especifico que queremos
-                                                 name = catalogItem.DisplayName;                                                                //Tenemos que asignar los valores al Scriptable object empezamos a llamar parametros.
-                                                 var unitCustomData = JsonUtility.FromJson<UnitCustomDataDTO>( catalogItem.CustomData );        //Tenemos que pasar los datos de playfab a nuestro DTO
-                                                 attack = unitCustomData.Attack;                                                                //Guardamos valores
-                                                 health = unitCustomData.Health;
-
-                                                 //Ahora forzamos el serializado del Scriptable object.
-                                                 UnityEditor.EditorUtility.SetDirty( this );
-                                                 UnityEditor.AssetDatabase.SaveAssets();
-                                                 UnityEditor.AssetDatabase.Refresh();
-                                             },
-                                             error => throw new System.Exception( error.ErrorMessage )
-                                             );
+            PlayFab.PlayFabAdminAPI.GetCatalogItems( request,
+                                                     result =>
+                                                     {
+                                                         var catalogItem = result.Catalog.First( item => item.ItemId.Equals( id ) );                    //Buscamos el item especifico que queremos
+                                                         displayName = catalogItem.DisplayName;                                                         //Tenemos que asignar los valores al Scriptable object empezamos a llamar parametros.
+                                                         var unitCustomData = JsonUtility.FromJson<UnitCustomDataDTO>( catalogItem.CustomData );        //Tenemos que pasar los datos de playfab a nuestro DTO
+                                                         unitCustomDataDTO = unitCustomData;                                                            //Guardamos valores
+                                                         
+                                                         //Ahora forzamos el serializado del Scriptable object.
+                                                         UnityEditor.EditorUtility.SetDirty( this );
+                                                         UnityEditor.AssetDatabase.SaveAssets();
+                                                         UnityEditor.AssetDatabase.Refresh();
+                                                     },
+                                                     error => throw new System.Exception( error.ErrorMessage )
+                                                     );
         }
 
         [Button()]
         public void SaveOnServer()
         {
-            var request = new UpdateCatalogItemsRequest
+            var request = new PlayFab.AdminModels.UpdateCatalogItemsRequest
             {
-                Catalog = new List<CatalogItem>
+                Catalog = new List<PlayFab.AdminModels.CatalogItem>
                 {
-                    new CatalogItem
+                    new PlayFab.AdminModels.CatalogItem
                     {
                         ItemId = id,
-                        DisplayName = name,
-                        CustomData = JsonUtility.ToJson(new UnitCustomDataDTO(attack, health))
+                        DisplayName = displayName,
+                        CustomData = JsonUtility.ToJson(unitCustomDataDTO)
                     }
                 },
                 CatalogVersion = "Units",
             };
-            PlayFabAdminAPI.UpdateCatalogItems( request, 
-                                                result => { Debug.Log( "Saved" ); },
-                                                error =>
-                                                {
-                                                    throw new System.Exception( error.ErrorMessage );
-                                                } 
-                                                );
+            PlayFab.PlayFabAdminAPI.
+                UpdateCatalogItems( request,
+                                    result => { Debug.Log( "Saved" ); },
+                                    error => throw new System.Exception( error.ErrorMessage )
+                                    );
         }
-
+#endif
     }
 }
 //Una opción que se pensaría sería serializar el DTO, pero el DTO no debería de viajar por todo el código sólo estar en la capa de aplicación (datos).

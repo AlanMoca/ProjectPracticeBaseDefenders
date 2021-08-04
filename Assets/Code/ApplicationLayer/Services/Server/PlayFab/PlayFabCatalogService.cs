@@ -1,4 +1,4 @@
-using ApplicationLayer.Services.Server.Gateways.Catalog;
+using Code.ApplicationLayer.Services.Server.Gateways.Catalog;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SystemUtilities;
 
-namespace ApplicationLayer.Services.Server.PlayFab
+namespace Code.ApplicationLayer.Services.Server.PlayFab
 {
     public class PlayFabCatalogService : ICatalogService                                        //Clase que implementará los métodos que se conectarán directamente con playfab y devolverá los catalogos que pidamos.
     {

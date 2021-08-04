@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
 
-namespace ApplicationLayer.Services.Server.PlayFab
+namespace Code.ApplicationLayer.Services.Server.PlayFab
 {
     public class PlayFabLoginEditor : PlayFabLogin
     {

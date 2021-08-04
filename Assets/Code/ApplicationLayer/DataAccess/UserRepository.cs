@@ -1,10 +1,10 @@
-using ApplicationLayer.Services.Server.DTOs.User;
-using ApplicationLayer.Services.Server.Gateways;
-using Domain.DataAccess;
-using Domain.Entities;
+using Code.ApplicationLayer.Services.Server.DTOs.User;
+using Code.ApplicationLayer.Services.Server.Gateways;
+using Code.Domain.DataAccess;
+using Code.Domain.Entities;
 using System.Threading.Tasks;
 
-namespace ApplicationLayer.DataAccess
+namespace Code.ApplicationLayer.DataAccess
 {
     public class UserRepository : IUserDataAccess
     {

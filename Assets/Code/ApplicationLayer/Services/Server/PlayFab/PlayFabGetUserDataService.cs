@@ -1,11 +1,11 @@
-using ApplicationLayer.Services.Server.Gateways;
+using Code.ApplicationLayer.Services.Server.Gateways;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using SystemUtilities;
 using PlayFab.ClientModels;
 using PlayFab;
 
-namespace ApplicationLayer.Services.Server.PlayFab
+namespace Code.ApplicationLayer.Services.Server.PlayFab
 {
     public class PlayFabGetUserDataService : IGetDataService                                    //Implementación de playfab (Se desacopla del gateway pero se pasa por constructor.)
     {

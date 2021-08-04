@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SystemUtilities;
 
-namespace ApplicationLayer.Services.Server.Gateways.Catalog
+namespace Code.ApplicationLayer.Services.Server.Gateways.Catalog
 {
     public interface ICatalogService                                                            //Será la interface que implementarán las clases que se quieran conectar con el catalogo pero ya propio de playfab
     {

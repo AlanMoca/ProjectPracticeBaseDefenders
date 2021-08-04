@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Domain.Services.Server;
+using Code.Domain.Services.Server;
 
-namespace Domain.UseCases.Meta.Login
+namespace Code.Domain.UseCases.Meta.Login
 {
     public class RequestLoginUseCase : ILoginRequester
     {

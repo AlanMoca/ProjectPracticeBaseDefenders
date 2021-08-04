@@ -1,8 +1,8 @@
-using Domain.UseCases.Meta.LoadServerData;
-using Domain.UseCases.Meta.LoadUserData;
-using Domain.UseCases.Meta.Login;
+using Code.Domain.UseCases.Meta.LoadServerData;
+using Code.Domain.UseCases.Meta.LoadUserData;
+using Code.Domain.UseCases.Meta.Login;
 
-namespace Domain.UseCases.Meta.InitializeGame
+namespace Code.Domain.UseCases.Meta.InitializeGame
 {
     public class InitializeGameUseCase : IGameInitializer
     {

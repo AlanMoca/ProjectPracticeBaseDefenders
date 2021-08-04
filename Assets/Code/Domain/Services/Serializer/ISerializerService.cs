@@ -1,4 +1,4 @@
-namespace Domain.Services.Serializer
+namespace Code.Domain.Services.Serializer
 {
     public interface ISerializerService
     {

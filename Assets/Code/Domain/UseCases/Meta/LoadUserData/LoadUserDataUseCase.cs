@@ -1,7 +1,7 @@
-using Domain.DataAccess;
+using Code.Domain.DataAccess;
 using System.Threading.Tasks;
 
-namespace Domain.UseCases.Meta.LoadUserData
+namespace Code.Domain.UseCases.Meta.LoadUserData
 {
     public class LoadUserDataUseCase : IUserDataLoader
     {

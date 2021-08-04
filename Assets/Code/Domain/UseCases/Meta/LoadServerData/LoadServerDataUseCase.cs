@@ -1,20 +1,29 @@
-using Domain.DataAccess;
+using Code.Domain.DataAccess;
+using Code.Domain.Services.Server;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
-namespace Domain.UseCases.Meta.LoadServerData
+namespace Code.Domain.UseCases.Meta.LoadServerData
 {
     public class LoadServerDataUseCase : IServerDataLoader
     {
         private readonly IUnitsDataAccess unitsDataAccess;
+        private readonly IServiceAuthenticator serviceAuthenticator;
 
-        public LoadServerDataUseCase( IUnitsDataAccess _unitsDataAccess )
+        public LoadServerDataUseCase( IUnitsDataAccess unitsDataAccess, IServiceAuthenticator serviceAuthenticator )
         {
-            this.unitsDataAccess = _unitsDataAccess;
+            this.unitsDataAccess = unitsDataAccess;
+            this.serviceAuthenticator = serviceAuthenticator;
         }
 
         public async Task Load()
         {
             await unitsDataAccess.GetAllUnits();
+            await unitsDataAccess.AddUnitsToUser( serviceAuthenticator.UserId,
+                                                    new List<UnitToAdd> {
+                                                        new UnitToAdd("Unit002",
+                                                        new SharedTypes.Units.UnitState(12, 1))
+                                                    } );
         }
     }
 }

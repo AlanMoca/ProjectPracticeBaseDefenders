@@ -1,15 +1,15 @@
-using Domain.Services.Server;
+using Code.Domain.Services.Server;
 using System.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
 
 //NOTA: Daniel maneja esta parte de la capa de Application como la capa más externa.
-namespace ApplicationLayer.Services.Server.PlayFab
+namespace Code.ApplicationLayer.Services.Server.PlayFab
 {
     public abstract class PlayFabLogin : IServiceAuthenticator
     {
-        public string UserID { get; private set; }
+        public string UserId { get; private set; }
 
         public Task Authenticate()                                                              //Al devolver un task lo que hacemos es que nuestro consumidor no tiene que preocuparse por callbacks.
         {
@@ -24,7 +24,7 @@ namespace ApplicationLayer.Services.Server.PlayFab
 
         protected void OnSuccess( LoginResult result, TaskCompletionSource<bool> taskCompletionSource )
         {
-            UserID = result.PlayFabId;
+            UserId = result.PlayFabId;
             taskCompletionSource.SetResult( true );
             UnityEngine.Debug.Log( "Todo fine" );
         }

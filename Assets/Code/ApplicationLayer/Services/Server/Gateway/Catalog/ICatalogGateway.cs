@@ -1,8 +1,8 @@
-using ApplicationLayer.Services.Server.DTOs.Server;
+using Code.ApplicationLayer.Services.Server.DTOs.Server;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ApplicationLayer.Services.Server.Gateways.Catalog
+namespace Code.ApplicationLayer.Services.Server.Gateways.Catalog
 {
     public interface ICatalogGateway
     {
