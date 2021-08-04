@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DevAccountEmail: moca.alansing@gmail.com
   DevAccountToken: xgtsm3ikixu13pb1sago787xar1r3jrmngnpoeec15zadgpgk9zaqtrh4rfxentw67phaa41nozz38b9wcp7xk9xuudcsnr6yfiwnjg7d3di1hrjcpij8hoa1qoks3hnwtxh99y995e9q49dtt3tnfp6zp3iniecb11a1agpngh7g8r6dhqppfshfkzo19udkdmemf6a
-  SelectedStudio: 
+  SelectedStudio: MocaGames
   SdkPath: Assets/PlayFabSDK
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0
-  curMainMenuIdx: 2
+  curMainMenuIdx: 0
   curSubMenuIdx: 0

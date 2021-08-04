@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
 
-namespace Domain.Services.Server
+namespace Code.Domain.Services.Server
 {
     public interface IServiceAuthenticator
     {
+        public string UserId { get; }
         Task Authenticate();
     }
 }

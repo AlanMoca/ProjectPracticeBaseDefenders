@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Domain.UseCase
+namespace Code.Domain.UseCases.Meta.Login
 {
     public interface ILoginRequester
     {

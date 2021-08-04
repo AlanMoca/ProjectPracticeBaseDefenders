@@ -1,4 +1,4 @@
-namespace Domain.UseCase
+namespace Code.Domain.UseCases.Meta.InitializeGame
 {
     public interface IGameInitializer
     {
