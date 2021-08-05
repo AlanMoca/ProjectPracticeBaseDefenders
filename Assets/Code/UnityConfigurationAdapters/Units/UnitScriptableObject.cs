@@ -13,7 +13,7 @@ namespace Code.UnityConfigurationAdapters.Units
         [SerializeField] private string displayName;
         [SerializeField] private UnitCustomDataDTO unitCustomDataDTO;
 
-#if UNITY_EDITOR && PLAYFABADMIN_API
+#if UNITY_EDITOR && ENABLE_PLAYFABADMIN_API
         [Button]
         public void LoadFromServer()
         {

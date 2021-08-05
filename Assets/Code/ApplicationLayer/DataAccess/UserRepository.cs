@@ -16,14 +16,14 @@ namespace Code.ApplicationLayer.DataAccess
             userDataGateway = _userDataGateway;
         }
 
-        public async Task<User> GetLocalUser()
+        public User GetLocalUser()
         {
             if( localUser != null )
             {
                 return localUser;
             }
 
-            var isInitializedDto = await userDataGateway.Contains<IsInitializedDTO>();          //Se usa para verificar si el usuario está inicializado o no.
+            var isInitializedDto = userDataGateway.Contains<IsInitializedDTO>();          //Se usa para verificar si el usuario está inicializado o no.
             localUser = new User( isInitializedDto );
             return localUser;
         }

@@ -18,7 +18,7 @@ namespace Code.Domain.UseCases.Meta.LoadServerData
 
         public async Task Load()
         {
-            await unitsDataAccess.GetAllUnits();
+            //unitsDataAccess.GetAllUnits();
             await unitsDataAccess.AddUnitsToUser( serviceAuthenticator.UserId,
                                                     new List<UnitToAdd> {
                                                         new UnitToAdd("Unit002",

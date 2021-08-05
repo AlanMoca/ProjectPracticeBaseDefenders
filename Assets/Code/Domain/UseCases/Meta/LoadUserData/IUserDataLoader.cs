@@ -4,6 +4,6 @@ namespace Code.Domain.UseCases.Meta.LoadUserData
 {
     public interface IUserDataLoader
     {
-        Task Load();
+        void Load();
     }
 }

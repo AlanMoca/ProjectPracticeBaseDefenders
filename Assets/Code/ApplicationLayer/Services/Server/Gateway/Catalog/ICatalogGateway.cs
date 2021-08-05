@@ -6,7 +6,7 @@ namespace Code.ApplicationLayer.Services.Server.Gateways.Catalog
 {
     public interface ICatalogGateway
     {
-        Task<IReadOnlyList<CatalogItemDTO>> GetItems<T>( string catalogId );
+        IReadOnlyList<CatalogItemDTO> GetItems( string catalogId );
     }
 }
 

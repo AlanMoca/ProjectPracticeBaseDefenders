@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Code.SharedTypes.Units
 {
+    [System.Serializable]
     public class UnitAttributes                                                                 //Esto nos permite ahorarnos el ir modificando otros códigos, sólo con editar esta clase.
     {
         [SerializeField] private int health;
@@ -22,6 +23,18 @@ namespace Code.SharedTypes.Units
         public int InitialUpgradeCost => initialUpgradeCost;
         public int InvocationSecondsCooldown => invocationSecondsCooldown;
 
+        public UnitAttributes( int health, int healthIncrementPerLevel, int attack, int attackIncrementPerLevel,
+            int movementSpeed, int secondsBetweenAttacks, int initialUpgradeCost, int invocationSecondsCooldown )
+        {
+            this.health = health;
+            this.healthIncrementPerLevel = healthIncrementPerLevel;
+            this.attack = attack;
+            this.attackIncrementPerLevel = attackIncrementPerLevel;
+            this.movementSpeed = movementSpeed;
+            this.secondsBetweenAttacks = secondsBetweenAttacks;
+            this.initialUpgradeCost = initialUpgradeCost;
+            this.invocationSecondsCooldown = invocationSecondsCooldown;
+        }
 
     }
 }

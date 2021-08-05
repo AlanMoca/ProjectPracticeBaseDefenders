@@ -46,3 +46,5 @@ namespace Code.ApplicationLayer.Services.Server.PlayFab
         }
     }
 }
+
+//Nota: PLAYFABADMIN la estamos usando sólo para las tools y PLAYFABSRVER sólo para darle las unidades al usuario.

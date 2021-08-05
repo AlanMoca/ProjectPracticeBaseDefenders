@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using System.Linq;
 using Code.Domain.Services.Serializer;
 using PlayFab.ClientModels;
+using Code.Domain.Services.Server;
+using UnityEngine.Assertions;
 
 namespace Code.ApplicationLayer.Services.Server.Gateways.Catalog
-{
-    public class CatalogGatewayPlayFab : ICatalogGateway                                        //Esta clase nos dará nuestros catalogos ya parseados. Sólo que no nos conectaremos directamente con la api de playfab
+{                                                                                               //Esta clase nos dará nuestros catalogos ya parseados. Sólo que no nos conectaremos directamente con la api de playfab
+    public class CatalogGatewayPlayFab : ICatalogGateway, ICatalogDataPreLoaderService          //IDataPre... Trabajará con el identificador
     {
         private readonly ICatalogService catalogService;
         private readonly ISerializerService serializerService;
@@ -20,14 +22,15 @@ namespace Code.ApplicationLayer.Services.Server.Gateways.Catalog
             this.items = new Dictionary<string, List<CatalogItemDTO>>();
         }
 
-        public async Task<IReadOnlyList<CatalogItemDTO>> GetItems<T>( string catalogId )        //Método que regresa nuestras unidades ya parseadas de CatalogItem en catalogItemDTO y almacena en un cache(diccionario) para sólo hacerlo una vez
+        public async Task PreLoad<T>( string catalogId )                                              //En el de gateway preguntabamos si ya lo teníamos cacheados sino cargabamos en el servidor, en este lo que haremos es cargarlos desde el servidor. Si hago un Get y no he hecho preload es porque no estoy usando esta clase como esta diseñada.
+        {
+            await GetItemsFromServer<T>( catalogId );
+        }
+
+        public IReadOnlyList<CatalogItemDTO> GetItems( string catalogId )        //Método que regresa nuestras unidades ya parseadas de CatalogItem en catalogItemDTO y almacena en un cache(diccionario) para sólo hacerlo una vez
         {
             var alreadyCached = items.ContainsKey( catalogId );
-            if( !alreadyCached )                                                                //Si ya fue parseado de playfab y almacenado en el diccionario cache los itemsDTO los regresamos, sino pues lo obtenemos de playfab.
-            {
-                await GetItemsFromServer<T>( catalogId );
-            }
-
+            Assert.IsTrue( alreadyCached, "You need to call preload first" );
             return GetCachedItems( catalogId );
         }
 

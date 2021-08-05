@@ -8,6 +8,7 @@ using Code.Domain.UseCases.Meta.InitializeGame;
 using Code.Domain.UseCases.Meta.LoadServerData;
 using Code.Domain.UseCases.Meta.LoadUserData;
 using Code.Domain.UseCases.Meta.Login;
+using Code.Domain.UseCases.Meta.PreLoadData;
 using UnityEngine;
 
 namespace Code.UnityConfigurationAdapters.Installers
@@ -30,13 +31,15 @@ namespace Code.UnityConfigurationAdapters.Installers
             
             var catalogGatewayPlayFab = new CatalogGatewayPlayFab( playFabCatalogService, serializerService );
 
-            var grantItemsService = new PlayFabUserInventoryServices();
-            var inventoryGateway = new InventoryGateway( grantItemsService );
+            var grantItemsServicePlayFab = new PlayFabUserInventoryServices();
+            var inventoryGateway = new InventoryGateway( grantItemsServicePlayFab );
             var unitsRepository = new UnitsRepository( catalogGatewayPlayFab, inventoryGateway );
 
             var serverDataLoader = new LoadServerDataUseCase( unitsRepository, playFabLogin );
 
-            var initializeGameUseCase = new InitializeGameUseCase( loginUseCase, userDataLoader, serverDataLoader );
+            //var lala = new TitleDataGateway( serializerService, new PlayFabGetUserDataService, catalogGatewayPlayFab )        //Checar
+            var dataPreLoader = new PreLoadDataUseCase(null, userDataGateway , null );
+            var initializeGameUseCase = new InitializeGameUseCase( loginUseCase, userDataLoader, serverDataLoader, dataPreLoader );
 
             initializeGameUseCase.InitGame();
         }

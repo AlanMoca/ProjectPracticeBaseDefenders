@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: Unit001
   m_EditorClassIdentifier: 
   id: Unit001
-  name: Unit 001
-  attack: 0
-  health: 0
+  displayName: Unit 001

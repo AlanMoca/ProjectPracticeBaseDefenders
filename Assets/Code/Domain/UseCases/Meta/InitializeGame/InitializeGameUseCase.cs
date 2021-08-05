@@ -1,6 +1,7 @@
 using Code.Domain.UseCases.Meta.LoadServerData;
 using Code.Domain.UseCases.Meta.LoadUserData;
 using Code.Domain.UseCases.Meta.Login;
+using Code.Domain.UseCases.Meta.PreLoadData;
 
 namespace Code.Domain.UseCases.Meta.InitializeGame
 {
@@ -9,19 +10,22 @@ namespace Code.Domain.UseCases.Meta.InitializeGame
         private readonly ILoginRequester loginRequester;
         private readonly IUserDataLoader userDataLoader;
         private readonly IServerDataLoader serverDataLoader;
+        private readonly IDataPreLoader dataPreLoader;
 
-        public InitializeGameUseCase( ILoginRequester _loginRequester, IUserDataLoader _userDataLoader, IServerDataLoader _serverDataLoader )
+        public InitializeGameUseCase( ILoginRequester loginRequester, IUserDataLoader userDataLoader, IServerDataLoader serverDataLoader, IDataPreLoader dataPreLoader )
         {
-            loginRequester = _loginRequester;
-            userDataLoader = _userDataLoader;
-            serverDataLoader = _serverDataLoader;
+            this.loginRequester = loginRequester;
+            this.userDataLoader = userDataLoader;
+            this.serverDataLoader = serverDataLoader;
+            this.dataPreLoader = dataPreLoader;
         }
 
         public async void InitGame()
         {
-            await loginRequester.Login();
-            await serverDataLoader.Load();
-            await userDataLoader.Load();
+            await loginRequester.Login();                                       //Login del usuario
+            await dataPreLoader.PreLoad();                                                     //Precargamos los datos del usuario y del server, antes de empezar a preguntar por ellos porque esa operación es costosa.
+            userDataLoader.Load();                                        //Cargamos datos del usuario
+            await serverDataLoader.Load();                                      //Cargamos datos del server
         }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 
 namespace Code.ApplicationLayer.Services.Server.Gateways
 {
-    public abstract class Gateway : IGateway
+    public abstract class Gateway : IGateway, IDataPreLoaderService                             //IDataPreLoader podría meterla dentro de IGateway pero eso significa que todos lo que implementen esto tendría que precargar datos y eso no me interesa.
     {
         private Dictionary<string, string> rawData;                                             //En Playfab trabajamos con datos que son string-string. Tenemos la key-JSON.
         private Dictionary<Type, string> typeToKey;                                             //Supongo convierte el tipo del DTO a string para la key en JSON.
@@ -31,7 +31,8 @@ namespace Code.ApplicationLayer.Services.Server.Gateways
 
         protected abstract void InitializeTypeToKey( out Dictionary<Type, string> typeToKey );  //Template method -> Esqueleto que los hijos van a override (UserDataGateway y TitleDataGateway). Lo que hacen los hijos es el mappeador de qué tipo de DTO equivale a cada nombre.
 
-        public async Task InitializeData()
+
+        public async Task PreLoad()                                                             //Obtiene los datos y los guarda en cahce.
         {
             InitializeTypeToKey( out typeToKey );                                               //Obtenemos las Keys del hijo que las implementa.
 
@@ -44,15 +45,11 @@ namespace Code.ApplicationLayer.Services.Server.Gateways
                         isInitialized = true;                                                   //Lo marcamos como inicializado para que por ejemplo en el método Get no tengamos que volver a inicializarlo.
                     } )
                     .OrElseThrow( new Exception( "Error initializing gateway data" ) );
-
         }
 
-        public async Task<T> Get<T>() where T : IDTO
+        public T Get<T>() where T : IDTO
         {
-            if( !isInitialized )                                                                //Nos aseguramos que ya esté inicializado antes de regresar datos sino inicializamos.
-            {
-                await InitializeData();
-            }
+            Assert.IsTrue( isInitialized, "Gateway is not initialized." );
 
             var type = typeof( T );                                                             //Almacenamos el tipo de clase de nuestro DTO.
 
@@ -70,12 +67,9 @@ namespace Code.ApplicationLayer.Services.Server.Gateways
             return dto;
         }
 
-        public async Task<bool> Contains<T>() where T : IDTO                                    //Simplemente pregunta si este tipo existe.
+        public bool Contains<T>() where T : IDTO                                    //Simplemente pregunta si este tipo existe.
         {
-            if( !isInitialized )
-            {
-                await InitializeData();
-            }
+            Assert.IsTrue( isInitialized, "Gateway is not initialized." );
 
             var type = typeof( T );
             var key = typeToKey[type];
@@ -85,7 +79,7 @@ namespace Code.ApplicationLayer.Services.Server.Gateways
 
         public void Set<T>( T data ) where T : IDTO                                             //Settea los datos pero en cache
         {
-            Assert.IsFalse( isInitialized, "Gateway is not initialized." );
+            Assert.IsTrue( isInitialized, "Gateway is not initialized." );
 
             var type = typeof( T );
             var key = typeToKey[type];
@@ -128,11 +122,11 @@ namespace Code.ApplicationLayer.Services.Server.Gateways
 
         public Task Save()
         {
-            Assert.IsFalse( isInitialized, "Gateway is not initialized" );
+            Assert.IsTrue( isInitialized, "Gateway is not initialized" );
 
             var task = setDataService.Set( dirtyData );                                         //Settea todos los datos que tengamos sucios a servidor. Es decir subelos.
             dirtyData.Clear();                                                                  //Limpiamos los datos que habían sido modificados. Porque después de guardado ya no están sucios.
             return task;                                                                        //Regresamos la task de subirlos al servidor.
-        }        
+        }
     }
 }

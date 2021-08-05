@@ -12,9 +12,9 @@ namespace Code.Domain.UseCases.Meta.LoadUserData
             userDataAccess = _userDataAccess;
         }
 
-        public async Task Load()
+        public void Load()
         {
-            var localUser = await userDataAccess.GetLocalUser();
+            var localUser = userDataAccess.GetLocalUser();
             UnityEngine.Debug.Log( localUser.isInitialized );
         }
     }

@@ -1,5 +1,4 @@
 using Code.Domain.DataAccess;
-using Code.ApplicationLayer.Services.Server.DTOs.Server;
 using Code.ApplicationLayer.Services.Server.Gateways.Catalog;
 using Code.Domain.Entities;
 using PlayFab.ServerModels;
@@ -23,9 +22,9 @@ namespace Code.ApplicationLayer.DataAccess
             _inventoryGateway = inventoryGateway;
         }
 
-        public async Task<IReadOnlyList<Unit>> GetAllUnits()
+        public IReadOnlyList<Unit> GetAllUnits()
         {
-            var unitsDTOs = await _catalogGateway.GetItems<UnitCustomDataDTO>( "Units" );       //Este es el item que le estás pidiendo al gateway.
+            var unitsDTOs = _catalogGateway.GetItems( "Units" );       //Este es el item que le estás pidiendo al gateway.
 
             var unitMapper = new UnitMapper();                                                  //El mappeado lo extrajimo a otra clase para quitarle esta responsabilidad al repository. Aunque el patrón Repository
             _units = new List<Unit>( unitsDTOs.Select( unitMapper.ParseUnitsDTO ) );            //contempla hacer estos mapeos, no quiere decir que los tenga que hacer él necesariamente, puede usar un colaborador como aquí.
@@ -49,12 +48,12 @@ namespace Code.ApplicationLayer.DataAccess
             await _inventoryGateway.GrantUnitsToUser( userId, items );
         }
 
-        private Dictionary<string, string> ParseFieldsToDictionary( UnitToAdd unit )            //Esto se hizo por reflexión porque aunque no es optima, permite hacer un código genérico.
+        private Dictionary<string, string> ParseFieldsToDictionary( UnitToAdd unit )            //Esto se hizo por reflexión porque aunque no es optima ya que tiene que analizar como está construida la clase, pero permite hacer un código genérico y no la ejecutaremos cada clic sólo cuando añadamos unidades.
         {
-            var type = unit.UnitState.GetType();
-            var fieldInfos = type.GetFields( System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );
-            return fieldInfos.ToDictionary( field => field.Name,
-                                            field => field.GetValue( unit.UnitState ).ToString() 
+            var type = unit.UnitState.GetType();                                                                                        //Guardo el tipo UnitState
+            var fieldInfos = type.GetFields( System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic );      //A este tipo dame todos campos que sean parte de la instancias o sea no estáticos y no publicos.
+            return fieldInfos.ToDictionary( field => field.Name,                                                                        //Esos fields los convierto en un diccionario 
+                                            field => field.GetValue( unit.UnitState ).ToString()                                        //El valor lo convierto a string porque playfab trabaja string, string :( (hubiera sido mejor json)
                                             );
         }
     }
