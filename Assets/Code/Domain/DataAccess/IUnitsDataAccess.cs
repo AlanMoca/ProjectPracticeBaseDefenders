@@ -8,5 +8,6 @@ namespace Code.Domain.DataAccess
     {
         IReadOnlyList<Unit> GetAllUnits();
         Task AddUnitsToUser( string userId, List<UnitToAdd> units );
+        IReadOnlyList<string> GetInitialUnitsId();
     }
 }

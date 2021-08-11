@@ -9,5 +9,10 @@ namespace Code.ApplicationLayer.Services.Server.DTOs.User
         private bool isInitialized;                                                             //Pero entonces tenemos que serializarla para que sea visible pero no editable.
                                                                                                 //El contenido de cada JSON del servidor debe coincidir con el contenido de cada DTO respectivamente. (isInitialized = en key server y aquí).
         public bool IsInitialized => isInitialized;
+
+        public IsInitializedDTO( bool isInitialized )
+        {
+            this.isInitialized = isInitialized;
+        }
     }
 }

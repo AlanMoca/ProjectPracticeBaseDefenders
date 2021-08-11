@@ -1,3 +1,4 @@
+using Code.ApplicationLayer.Services.Server.DTOs.Server;
 using Code.ApplicationLayer.Services.Server.DTOs.User;
 using Code.Domain.Services.Serializer;
 using System;
@@ -15,7 +16,7 @@ namespace Code.ApplicationLayer.Services.Server.Gateways
         {
             typeToKey = new Dictionary<Type, string>
                         {
-                            { typeof(IsInitializedDTO), "IsInitialized" }
+                            { typeof(InitialUnitsDTO), "InitialUnits" }                         //Esta llave de playfab corresponde a esta clase.
                         };
         }
     }

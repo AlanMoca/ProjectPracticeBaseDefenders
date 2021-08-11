@@ -1,7 +1,7 @@
 using Code.ApplicationLayer.Services.Server.DTOs.Server;
 using Code.Domain.Entities;
 
-namespace ApplicationLayer.DataAccess
+namespace Code.ApplicationLayer.DataAccess
 {
     public class UnitMapper
     {

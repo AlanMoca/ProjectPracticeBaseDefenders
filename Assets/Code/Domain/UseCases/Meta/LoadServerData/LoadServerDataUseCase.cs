@@ -19,11 +19,11 @@ namespace Code.Domain.UseCases.Meta.LoadServerData
         public async Task Load()
         {
             //unitsDataAccess.GetAllUnits();
-            await unitsDataAccess.AddUnitsToUser( serviceAuthenticator.UserId,
-                                                    new List<UnitToAdd> {
-                                                        new UnitToAdd("Unit002",
-                                                        new SharedTypes.Units.UnitState(12, 1))
-                                                    } );
+            //await unitsDataAccess.AddUnitsToUser( serviceAuthenticator.UserId,
+            //                                        new List<UnitToAdd> {
+            //                                            new UnitToAdd("Unit002",
+            //                                            new SharedTypes.Units.UnitState(12, 1))
+            //                                        } );
         }
     }
 }

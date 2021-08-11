@@ -1,3 +1,4 @@
+using Code.Domain.UseCases.Meta.CreateUser;
 using Code.Domain.UseCases.Meta.LoadServerData;
 using Code.Domain.UseCases.Meta.LoadUserData;
 using Code.Domain.UseCases.Meta.Login;
@@ -9,17 +10,20 @@ namespace Code.Domain.UseCases.Meta.InitializeGame
     {
         private readonly ILoginRequester loginRequester;
         private readonly IDataPreLoader dataPreLoader;
+        private readonly IUserInitializer userInitializer;
 
-        public InitializeGameUseCase( ILoginRequester loginRequester, IDataPreLoader dataPreLoader )
+        public InitializeGameUseCase( ILoginRequester loginRequester, IDataPreLoader dataPreLoader, IUserInitializer userInitializer )
         {
             this.loginRequester = loginRequester;
             this.dataPreLoader = dataPreLoader;
+            this.userInitializer = userInitializer;
         }
 
         public async void InitGame()
         {
             await loginRequester.Login();                                       //Login del usuario
-            await dataPreLoader.PreLoad();                                      //Precargamos los datos del usuario y del server, antes de empezar a preguntar por ellos porque esa operación es costosa.                                  //Cargamos datos del server
+            await dataPreLoader.PreLoad();                                      //Precargamos los datos del usuario y del server, antes de empezar a preguntar por ellos porque esa operación es costosa.
+            userInitializer.Init();
         }
     }
 }
