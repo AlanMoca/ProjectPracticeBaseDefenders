@@ -5,22 +5,16 @@ namespace Code.Domain.UseCases.Meta.PreLoadData
 {
     public class PreLoadDataUseCase : IDataPreLoader
     {
-        private IDataPreLoaderService serverDataPreLoaderService;
-        private IDataPreLoaderService clientDataPreLoaderService;
-        private ICatalogDataPreLoaderService catalogDataPreLoaderService;
+        private IDataPreLoaderService dataPreLoaderService;
 
-        public PreLoadDataUseCase( IDataPreLoaderService serverDataPreLoaderService, IDataPreLoaderService clientDataPreLoaderService, ICatalogDataPreLoaderService catalogDataPreLoaderService )
+        public PreLoadDataUseCase( IDataPreLoaderService dataPreLoaderService )
         {
-            this.serverDataPreLoaderService = serverDataPreLoaderService;
-            this.clientDataPreLoaderService = clientDataPreLoaderService;
-            this.catalogDataPreLoaderService = catalogDataPreLoaderService;
+            this.dataPreLoaderService = dataPreLoaderService;
         }
 
         public async Task PreLoad()
         {
-            //await serverDataPreLoaderService.PreLoad();   Descomentar
-            await clientDataPreLoaderService.PreLoad();
-            //await catalogDataPreLoaderService.PreLoad<UnitCustomData>("Units");
+            await dataPreLoaderService.PreLoad();
         }
     }
 }

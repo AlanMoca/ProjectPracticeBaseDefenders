@@ -1,5 +1,6 @@
 using Code.ApplicationLayer.DataAccess;
 using Code.ApplicationLayer.Services.Serializer;
+using Code.ApplicationLayer.Services.Server;
 using Code.ApplicationLayer.Services.Server.Gateway.Inventory;
 using Code.ApplicationLayer.Services.Server.Gateways;
 using Code.ApplicationLayer.Services.Server.Gateways.Catalog;
@@ -37,9 +38,12 @@ namespace Code.UnityConfigurationAdapters.Installers
 
             var serverDataLoader = new LoadServerDataUseCase( unitsRepository, playFabLogin );
 
-            //var lala = new TitleDataGateway( serializerService, new PlayFabGetUserDataService, catalogGatewayPlayFab )        //Checar
-            var dataPreLoader = new PreLoadDataUseCase(null, userDataGateway , null );
-            var initializeGameUseCase = new InitializeGameUseCase( loginUseCase, userDataLoader, serverDataLoader, dataPreLoader );
+
+            //var titleDataGateway = new TitleDataGateway( serializerService, playFabGetTitleDataService, null );
+            var dataPreLoaderServiceImpl = new DataPreLoaderService( null, null, null );
+            var preLoadDataUseCase = new PreLoadDataUseCase( dataPreLoaderServiceImpl );
+
+            var initializeGameUseCase = new InitializeGameUseCase( loginUseCase, preLoadDataUseCase );
 
             initializeGameUseCase.InitGame();
         }

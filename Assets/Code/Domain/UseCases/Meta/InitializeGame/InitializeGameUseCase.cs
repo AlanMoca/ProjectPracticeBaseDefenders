@@ -8,24 +8,18 @@ namespace Code.Domain.UseCases.Meta.InitializeGame
     public class InitializeGameUseCase : IGameInitializer
     {
         private readonly ILoginRequester loginRequester;
-        private readonly IUserDataLoader userDataLoader;
-        private readonly IServerDataLoader serverDataLoader;
         private readonly IDataPreLoader dataPreLoader;
 
-        public InitializeGameUseCase( ILoginRequester loginRequester, IUserDataLoader userDataLoader, IServerDataLoader serverDataLoader, IDataPreLoader dataPreLoader )
+        public InitializeGameUseCase( ILoginRequester loginRequester, IDataPreLoader dataPreLoader )
         {
             this.loginRequester = loginRequester;
-            this.userDataLoader = userDataLoader;
-            this.serverDataLoader = serverDataLoader;
             this.dataPreLoader = dataPreLoader;
         }
 
         public async void InitGame()
         {
             await loginRequester.Login();                                       //Login del usuario
-            await dataPreLoader.PreLoad();                                                     //Precargamos los datos del usuario y del server, antes de empezar a preguntar por ellos porque esa operación es costosa.
-            userDataLoader.Load();                                        //Cargamos datos del usuario
-            await serverDataLoader.Load();                                      //Cargamos datos del server
+            await dataPreLoader.PreLoad();                                      //Precargamos los datos del usuario y del server, antes de empezar a preguntar por ellos porque esa operación es costosa.                                  //Cargamos datos del server
         }
     }
 }
