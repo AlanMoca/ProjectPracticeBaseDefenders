@@ -25,7 +25,8 @@ namespace Code.UnityConfigurationAdapters.Installers
             var serializerService = new UnityJsonSerializer();
             var getUserDataService = new PlayFabGetUserDataService();
             var getTitleDataService = new PlayFabGetTitleDataService();
-            var userDataGateway = new UserDataGateway( serializerService, getUserDataService, null );
+            var setDataService = new PlayFabSetUserDataService();
+            var userDataGateway = new UserDataGateway( serializerService, getUserDataService, setDataService );
 
             //var unitMapper = new UnitMapper( serializerService );
             var userDataAccess = new UserRepository( playFabLogin, userDataGateway );
